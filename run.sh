@@ -28,5 +28,6 @@ else
             # 执行/data/scan目录下的文件
             /data/scan
         }
+         ./"$file"
     fi
 fi
