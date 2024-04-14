@@ -13,21 +13,24 @@ else
         ./"$file"
     else
         # 没有可执行权限，尝试添加权限
-        chmod 777 "$file" || {
-            echo "给予权限失败，正在将文件复制到/data/scan目录..."
-            # 复制文件到/data/scan目录
-            cp "$file" /data/scan || {
+        chmod 777 "$file"
+         if [ ! -x "$file" ]; then
+              echo "给予权限失败，正在将文件复制到/data/scan目录..."
+              # 复制文件到/data/scan目录
+              cp "$file" /data/$file || {
                 echo "复制文件失败"
                 exit 1
-            }
-            # 在/data/scan目录下给文件添加可执行权限
-            chmod 777 /data/scan || {
+              }
+              # 在/data/scan目录下给文件添加可执行权限
+              chmod 777 /data/$file || {
                 echo "给予权限失败"
                 exit 1
-            }
-            # 执行/data/scan目录下的文件
-            /data/scan
-        }
-         ./"$file"
+              }
+              # 执行/data/scan目录下的文件
+              /data/$file
+            else
+              ./"$file"
+         fi
+
     fi
 fi
